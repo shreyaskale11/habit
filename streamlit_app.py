@@ -51,41 +51,65 @@ def main():
     
     # Streamlit UI
     st.title("Habit Tracker")
-    
     # data
     coll_ref_1 = firestore_client.collection("habit") 
     # Fetch all data
     all_months_data = coll_ref_1.document("all_month").get().to_dict()
-
+    todo , pending = st.columns(2)
+    todo_dict = {}
+    with todo:
+        todo_ = st.text_area("To do",coll_ref_1.document("backlock").get().to_dict()['todo'])
+        todo_dict['todo'] = todo_
+    with pending:
+        pending_ = st.text_area("Pending",coll_ref_1.document("backlock").get().to_dict()['pending'])
+        todo_dict['pending'] = pending_
+        
+    if st.button('Save todo'):
+            coll_ref_1.document("backlock").set(todo_dict)
+    
+    
+    st.write("---")
+    
     if st.button("Load Score"):
+        # Initialize variables
+        # Assuming today is the current date
+        today = datetime.today()
+
         # Initialize variables
         total_points = 0
         max_possible_points = 0
+
         # Iterate through all_months_data
         for year_key, year_data in all_months_data.items():
             for day_key, value in year_data.items():
                 if "rating" in day_key:
                     # Extract day information from the key
                     year, month, day = map(int, day_key.split('_')[:3])
-                    # Get the rating and corresponding task for the day
-                rating = value
-                task_key = f"{year}_{month}_{day}_task"
-                task = year_data.get(task_key, "")
+                    
+                    # Convert day information to a datetime object
+                    day_date = datetime(year, month, day)
+                    
+                    # Check if the day is within the last 2 weeks
+                    if day_date <= today:
+                        # Get the rating and corresponding task for the day
+                        rating = value
+                        task_key = f"{year}_{month}_{day}_task"
+                        task = year_data.get(task_key, "")
 
-                # Check if the task is not an empty string
-                if task != "":
-                    # Calculate points based on the scoring system
-                    if rating == 'red':
-                        points = 1
-                    elif rating == 'orange':
-                        points = 2
-                    elif rating == 'green':
-                        points = 3
-                    else:
-                        points = 0  # Handle other cases
-                    # Update total points and max possible points
-                    total_points += points
-                    max_possible_points += 3  
+                        # Check if the task is not an empty string
+                        if task != "":
+                            # Calculate points based on the scoring system
+                            if rating == 'red':
+                                points = 1
+                            elif rating == 'orange':
+                                points = 2
+                            elif rating == 'green':
+                                points = 3
+                            else:
+                                points = 0  # Handle other cases
+                            # Update total points and max possible points
+                            total_points += points
+                            max_possible_points += 3 
         # Calculate strike rate
         if max_possible_points > 0:
             strike_rate = (total_points / max_possible_points) * 100
