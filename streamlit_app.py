@@ -1,8 +1,7 @@
 
 
 import streamlit as st
-
-from datetime import datetime
+from datetime import datetime, timedelta
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
@@ -100,7 +99,6 @@ def main():
         st.success(" Loaded successfully!")
     
     if st.button("strike score"):
-        from datetime import datetime, timedelta
 
         # Assuming today is the current date
         today = datetime.today()
