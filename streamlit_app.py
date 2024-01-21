@@ -49,8 +49,17 @@ def main():
     st.set_page_config(page_title="OpenAI", page_icon="🖖",layout="wide")
     
     # Streamlit UI
-    st.title("Daily Tiffin Expense Tracker")
+    st.title("Habit Tracker")
 
+    # Get today's date
+    today_date = st.date_input("Select Date", value= datetime.today())
+    
+    col1, col2, col3, col4, col5, col6 = st.columns(6)
+
+    with col1:
+        for i in range(30):
+            st.text_area()
+            st.text_input()
     
     
     
