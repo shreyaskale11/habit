@@ -100,16 +100,16 @@ def main():
                         if task != "":
                             # Calculate points based on the scoring system
                             if rating == 'red':
-                                points = 1
+                                points = 0
                             elif rating == 'orange':
-                                points = 2
+                                points = 1
                             elif rating == 'green':
-                                points = 3
+                                points = 2
                             else:
                                 points = 0  # Handle other cases
                             # Update total points and max possible points
                             total_points += points
-                            max_possible_points += 3 
+                            max_possible_points += 2
         # Calculate strike rate
         if max_possible_points > 0:
             strike_rate = (total_points / max_possible_points) * 100
@@ -119,9 +119,9 @@ def main():
         st.write(f"Total Points: {total_points}")
         st.write(f"Maximum Possible Points: {max_possible_points}")
         st.write(f"Strike Rate: {strike_rate:.2f}%")
-        
+
         st.success(" Loaded successfully!")
-    
+
     if st.button("strike score"):
 
         # Assuming today is the current date
@@ -155,16 +155,16 @@ def main():
                         if task != "":
                             # Calculate points based on the scoring system
                             if rating == 'red':
-                                points = 1
+                                points = 0
                             elif rating == 'orange':
-                                points = 2
+                                points = 1
                             elif rating == 'green':
-                                points = 3
+                                points = 2
                             else:
                                 points = 0  # Handle other cases
                             # Update total points and max possible points
                             total_points += points
-                            max_possible_points += 3  
+                            max_possible_points += 2
 
         # Calculate strike rate
         if max_possible_points > 0:
@@ -177,9 +177,8 @@ def main():
         st.write(f"Maximum Possible Points: {max_possible_points}")
         st.write(f"Strike Rate for the Last 2 Weeks: {strike_rate:.2f}%")
 
-    
     st.write("---")
-    
+
     jan, feb, col3, col4, col5, col6 = st.columns(6)
     color_list = {'red':0, 'orange':1, "green":2}
     year = 2024
@@ -193,7 +192,7 @@ def main():
         month_key = f"{year}_{month}"
         if all_months_data[month_key]:
             d = all_months_data[month_key]
- 
+
         for i in range(num_days):
             day_key = f"{year}_{month}_{i+1}"
             # Check if the day is a Saturday or Sunday
@@ -251,7 +250,7 @@ def main():
             )
             d_feb[f"{year}_{month}_{i+1}_task"] = task
             d_feb[f"{year}_{month}_{i+1}_rating"] = rating
-    
+
     st.write("---")
     if st.button("Save Task"):
         coll_ref_1.document("all_month").update({
@@ -262,7 +261,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 
 
 # 
@@ -283,3 +281,14 @@ if __name__ == "__main__":
     # # Display "Next Color" button in the first column
     # if col1.button('Next Color'):
     #     st.session_state.current_color = get_next_color(st.session_state.current_color)
+
+
+
+
+
+
+
+
+
+
+
