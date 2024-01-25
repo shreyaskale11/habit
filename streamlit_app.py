@@ -66,6 +66,7 @@ def main():
         
     if st.button('Save todo'):
             coll_ref_1.document("backlock").set(todo_dict)
+            st.success("Todo saved successfully!")
     
     
     st.write("---")
